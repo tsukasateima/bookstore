@@ -5,29 +5,13 @@
 
 <!--步骤一-->
 <view wx:if="{{show_a}}">
-	<view class="a_sao">
-		<button class="shadow" bindtap="scan">点击扫码</button>
-	</view>
 	<view class="a_contain">
-		<view class="a_inp shadow" wx:if="{{showInput}}">
-			<image class="a_scan" src="/images/scan.png"></image>
+		<view class="a_inp shadow" >
+        <image bindtap="scan" class="a_scan" src="/images/scan.png"></image>
 			<input bindconfirm="confirm" bindinput="isbnInput" value="{{isbn}}" type="number" maxlength="13" placeholder-class="a_pla" placeholder="请输入978开头的ISBN号码" />
 			<view class="a_confirm" bindtap="confirm">确认</view>
 		</view>
-		<view class="inputIsbn" bindtap="inputIsbn" wx:if="{{!showInput}}">手动输入ISBN号</view>
-		<view class="a_des">请扫码获得书籍信息</view>
-		<image class="a_isbn" src="/images/isbn1.jpg" />
-		<!-- <image class="a_next" src="/images/next.png" /> -->
 	</view>
-	<view class="rent-tip">
-		<text style="color:red">温馨提示:\n</text>
-		<text class="tip-text">
- 			1.扫码补充信息发布
-			2.交易方式有【出售】和【租借】两种
-
-		</text>
-	</view>
-
 </view>
 <!--步骤二-->
 <view wx:if="{{show_b}}">
@@ -54,11 +38,6 @@
 				<block wx:if="{{chooseSell ==0}}">
 					<view class="b_name">售价(元)</view>
 					<input type="text" value="{{sellPrice}}" bindinput="priceInput"></input>
-					<!-- <van-stepper value="{{price}}" integer bind:change="priceChange" min="1" max="100" /> -->
-				</block>
-				<block wx:if="{{chooseSell ==1}}">
-					<view class="b_name">租价(0.5~3元/天)</view>
-					<input type="text" value="{{rentPrice}}" bindinput="rentInput"></input>
 					<!-- <van-stepper value="{{price}}" integer bind:change="priceChange" min="1" max="100" /> -->
 				</block>
 			</view>

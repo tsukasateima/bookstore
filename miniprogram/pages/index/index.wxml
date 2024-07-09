@@ -2,7 +2,7 @@
 <view class="top_box">
       <view class="search_box" bindtap="search">
             <image class="search_ico" src="/images/search.png"></image>
-            <view class="search_text">搜索例如：Web开发</view>
+            <view class="search_text">搜索书名</view>
       </view>
       <image class="logo" src="../../images/logo.png" mode="widthFix"></image>
       <!-- <image bindtap="changeCard" class="top_list" src="{{iscard?'/images/list.png':'/images/card.png'}}"></image> -->
@@ -15,19 +15,19 @@
       </block>
 </swiper>
 <view class="space"></view> -->
-<view class="bar">
+<!-- <view class="bar">
 <view class="review" bindtap="goReview">
 <text>书圈广场</text> 
-</view>
+</view> -->
 
 <!-- <view class="reqBook">
 <text>发布求购</text> 
 </view> -->
 
-<view class="rent" bindtap="goRent">
+<!-- <view class="rent" bindtap="goRent">
 <text>书籍租借</text> 
 </view>
-</view>
+</view> -->
 <!--分类导航-->
 <view class="{{scrollTop>310?'nofixed':''}}">
 </view>

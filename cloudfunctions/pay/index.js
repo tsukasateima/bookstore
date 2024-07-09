@@ -1,6 +1,6 @@
 var config = {
-  appid: 'wx2xxxxxxxxxx', //服务商公众号Appid
-  envName: 'shixian', // 小程序云开发环境ID
+  appid: 'wxda1f9e7de1b054cc', //服务商公众号Appid
+  envName: 'cloud1-4gweu4m89ff0f881', // 小程序云开发环境ID
   mchid: '158xxxxxxx', //商户号
   partnerKey: 'xxxxxxxxxxxxxxxxxxxx', //此处填服务商密钥32位
   notify_url: 'https://mp.weixin.qq.com', //这个不要管
@@ -22,7 +22,7 @@ cloud.init({
 var db = cloud.database();
 var TcbRouter = require('tcb-router'); //云函数路由
 var rq = require('request');
-var tenpay = require('tenpay'); //支付核心模块
+// var tenpay = require('tenpay'); //支付核心模块
 
 exports.main = async (event, context) => {
   var app = new TcbRouter({
@@ -44,15 +44,17 @@ exports.main = async (event, context) => {
       var price = Number(good.bookinfo.price)
     }
     var curTime = Date.now();
-    var api = tenpay.init(config)
-    var result = await api.getPayParams({
-      //商户订单号，我这里是定义的boolk+商品发布时间+当前时间戳
-      //微信这里限制订单号一次性不能重复，只需要唯一即可
-      out_trade_no: 'book' + good.creatTime + '' + curTime,
-      body: good.bookinfo.title, //商品名称，我设置的书名
-      total_fee: price * 100, //金额，注意是数字，不是字符串
-      openid: wxContext.OPENID //***用户的openid
-    });
+    var result = {
+      errCode: 0,
+      errMsg: '模拟支付成功',
+      // 模拟的支付参数，可以根据实际需要返回
+      data: {
+        out_trade_no: 'book' + good.creatTime + '' + curTime,
+        body: good.bookinfo.title,
+        total_fee: price * 100,
+        openid: wxContext.OPENID
+      }
+    };
     ctx.body = result; //返回前端结果
   });
   //充值钱包
@@ -60,14 +62,19 @@ exports.main = async (event, context) => {
     var wxContext = cloud.getWXContext();
     var curTime = Date.now();
     var api = tenpay.init(config)
-    var result = await api.getPayParams({
-      //商户订单号
+   // 模拟充值成功结果
+   var result = {
+    errCode: 0,
+    errMsg: '模拟充值成功',
+    // 模拟的充值参数，可以根据实际需要返回
+    data: {
       out_trade_no: 'bookcz' + '' + curTime,
-      body: '充值钱包', //商品名称
-      total_fee: event.num * 100, //金额，注意是数字，不是字符串
-      openid: wxContext.OPENID //***用户的openid
-    });
-    ctx.body = result; //返回前端结果
+      body: '充值钱包',
+      total_fee: event.num * 100,
+      openid: wxContext.OPENID
+    }
+  };
+  ctx.body = result; //返回前端结果
   });
 
   //修改卖家书籍在售状态

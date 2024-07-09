@@ -47,15 +47,12 @@
       <view class="deliver_box">
             <view class="deliver_first">
                   <view class="deliver_title">交易方式：</view>
-                  <view class="deliver_kind">{{publishinfo.chooseId==0 ? '出售':'出租'}}</view>
+                  <view class="deliver_kind">出售</view>
                   
             </view>
             <br/>
             <view class="deliver_place">{{publishinfo.place}}</view>
       </view>
-      <!-- <view class="palceInput_box" wx:if="{{publishinfo.deliveryid==0}}">
-            <input bindinput="placeInput" placeholder="卖家可以校内面交，请留下您的联系方式"></input>
-      </view> -->
       <view class="notes_box" wx:if="{{publishinfo.notes!==''}}">
             <view class="notes">
                   <view class="deliver_title">书籍完好情况等信息:</view>
@@ -126,10 +123,6 @@
             <text>加购物车</text>
       </view>
       <view class="buy_box">
-      <!-- 下单租借 -->
-      <block wx:if="{{publishinfo.chooseId ==1}}">
-            <view class="rentBuy shadow" bindtap="rentBuy">下单租借</view>
-      </block>
       <!-- 下单购买 -->
       <block wx:if="{{publishinfo.chooseId ==0}}">
       

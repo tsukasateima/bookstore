@@ -1,8 +1,8 @@
 var data = {
   //云开发环境id
-  env: 'shixian-jx2100',
+  env: 'cloud1-4gweu4m89ff0f881',
   //分享配置
-  share_title: '安徽农业大学二手书',
+  share_title: '',
   share_img: '/images/poster.jpg', //可以是网络地址，本地文件路径要填绝对位置
   share_poster:'',//必须为网络地址
   //客服联系方式
@@ -17,7 +17,7 @@ var data = {
   bgurl: '/images/startBg.jpg',
   //校区
   campus: [{
-              name: '安徽农业大学',
+              name: '华中农业大学',
               id: 0
         },
         {
@@ -36,7 +36,7 @@ var data = {
               id: 0
         },
         {
-              name: '信计',
+              name: '计科',
               id: 1
         },
         {
@@ -44,21 +44,8 @@ var data = {
               id: 2
         },
         {
-              name: '土木',
-              id: 3
-        },
-        {
               name: '农学',
               id: 4
-        },
-        {
-              name: '电气',
-              id: 5
-        },
-        
-        {
-              name: '心理',
-              id: 6
         },
         {
               name: '其它',

@@ -192,10 +192,10 @@ Page({
                 name: '书籍管理',
                 id: 1,
             },
-            {
-                name: '书圈管理',
-                id: 2,
-            },
+            // {
+            //     name: '书圈管理',
+            //     id: 2,
+            // },
             {
                 name: '订单管理',
                 id: 3,
@@ -303,7 +303,7 @@ Page({
     //管理员登录
     adminLogin() {
         var that = this;
-        if (that.data.adminName == '' && that.data.adminPass == '') {
+        if (1) {
             console.log('管理员登录成功');
             that.setData({
                 admin: false,

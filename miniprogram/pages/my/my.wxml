@@ -11,7 +11,7 @@
 		<view wx:if="{{!userInfo}}" class="top_1_1" bindtap="go" data-go="/pages/login/login">点击登录</view>
 		
 		<view class="top_1_2" wx:if="{{!userInfo}}" bindtap="go" data-go="/pages/login/login">请先注册登录</view>
-		<view class="top_1_2" wx:if="{{userInfo}}"  >欢迎来自【{{userInfo.campus.name}}】的</view>
+		<view class="top_1_2" wx:if="{{userInfo}}"  >欢迎</view>
 		<view wx:if="{{userInfo}}" class="top_1_1">
 			<open-data type="userNickName"></open-data>
 		</view>

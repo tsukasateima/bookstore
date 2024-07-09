@@ -57,10 +57,6 @@ Page({
         name: '出售',
         id: 0,
         check: true,
-      }, {
-        name: '租借',
-        id: 1,
-        check: false
       }],
       chooseSell: 0,
     })
