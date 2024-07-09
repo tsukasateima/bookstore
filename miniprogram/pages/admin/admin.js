@@ -192,17 +192,13 @@ Page({
                 name: '书籍管理',
                 id: 1,
             },
-            // {
-            //     name: '书圈管理',
-            //     id: 2,
-            // },
             {
-                name: '订单管理',
-                id: 3,
+              name: '订单管理',
+              id: 2,
             },
             {
-                name: '数据统计',
-                id: 4,
+              name: '数据统计',
+              id: 3,
             }
         ],
         tabid: 0,
@@ -332,11 +328,9 @@ Page({
             that.setData({
                 userMenu: true,
                 bookMenu: false,
-                reviewMenu: false,
                 orderMenu: false,
                 echartMenu: false,
             })
-
         }
         if (that.data.tabid == 1) {
             that.setData({
@@ -350,34 +344,19 @@ Page({
 
         }
         if (that.data.tabid == 2) {
-            that.reviewList();
-            that.setData({
-                userMenu: false,
-                bookMenu: false,
-                reviewMenu: true,
-                orderMenu: false,
-                reviewBookMenu: true,
-                reqBookMenu: false,
-                reviewtabid: 0,
-                echartMenu: false,
-            })
-        }
-        if (that.data.tabid == 3) {
             that.orderList();
             that.setData({
                 userMenu: false,
                 bookMenu: false,
-                reviewMenu: false,
                 orderMenu: true,
                 echartMenu: false,
             })
         }
-        if (that.data.tabid == 4) {
+        if (that.data.tabid == 3) {
 
             that.setData({
                 userMenu: false,
                 bookMenu: false,
-                reviewMenu: false,
                 orderMenu: false,
                 echartMenu: true,
             })
