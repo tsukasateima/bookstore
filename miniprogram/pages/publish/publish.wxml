@@ -68,11 +68,15 @@
 			<view class="b_bar">
 				<view class="b_name">交易方式</view>
 				<radio-group class="kind-group" bindchange="delChange">
-					<label class="b_radio" wx:for="{{sellChoose}}" wx:key="id">
+					<label class="b_radio" wx:for="{{sellChoose}}" wx:key="id" style="margin-right: 10px;">
 						<radio color="#6699CC" value="{{item.id}}" checked="{{item.check}}" />{{item.name}}
 					</label>
+          <label>
+              <radio color="#6699CC" value="{{item.id}}" checked="{{item.check}}" />出租
+          </label>
 				</radio-group>
 			</view>
+          <view class="b_nobi">※ 若为出租请在信息处标注出租时间</view>
 			<!-- <view class="b_bar">
 				<view class="b_name">交易方式</view>
 				<radio-group class="kind-group" bindchange="delChange">

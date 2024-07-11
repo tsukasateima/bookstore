@@ -39,6 +39,7 @@ Page({
       buyPlace: "",
       buyOther: "",
     },
+    num:0
   },
 
   onLoad(e) {
@@ -162,7 +163,7 @@ Page({
         },
       });
       return false;
-    }  else {
+    } else {
       that.checkBuyway();
       that.setData({
         showBuy: true,
@@ -187,7 +188,6 @@ Page({
     var that = this;
     var sellCampus = that.data.selluserinfo.campus.id;
     var buyCampus = that.data.buyuserinfo.campus.id;
-    //console.log(sellCampus)
     if (sellCampus == 0 && buyCampus == 0) {
       that.setData({
         sameCampus: true,
@@ -264,17 +264,51 @@ Page({
       },
       fail(err) {
         wx.hideLoading();
-        
       },
     });
   },
-
+  getnum() {
+    var that = this;
+    db.collection('user').where({
+          _openid: app.globalData.openid
+    }).get({
+          success: function (res) {
+                that.setData({
+                      num: res.data[0].parse,
+                });
+          },
+          fail() {
+                that.setData({
+                      num: 0,
+                });
+                wx.showToast({
+                      title: '获取失败',
+                      icon: 'none'
+                })
+          }
+    })
+},
   //实现小程序支付
   pay(payData) {
     var that = this;
     that.setStatus();
-    wx.showToast({
-      title: "付款成功！",
+    //利用云开发接口，调用云函数发起订单
+    wx.cloud.callFunction({
+      name: "cash",
+      data: {
+        userid: that.data.userid,
+        num: Number(that.data.num) - Number(that.data.publishinfo.sellPrice),
+      },
+      success: (res) => {
+        if (res.result.result_code == "SUCCESS") {
+          // 根据修改后的云函数返回结果判断
+          debugger
+        }
+      },
+      fail(err) {
+        that.failref();
+        console.log(err);
+      },
     });
   },
 

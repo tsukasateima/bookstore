@@ -10,8 +10,7 @@
             </view>
             <view class="box2">
                   <view class="box2_1">
-                        <!-- <view class="box2_1_1" catchtap="go" data-go="/pages/refill/refill">充值</view> -->
-                        <view class="box2_1_2" catchtap="go" data-go="/pages/mycash/mycash">提现</view>
+                        <view class="box2_1_2" catchtap="go" data-go="/pages/mycash/mycash">充值</view>
                   </view>
             </view>
       </view>

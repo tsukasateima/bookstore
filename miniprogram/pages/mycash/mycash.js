@@ -4,23 +4,7 @@ var app = getApp()
 var db = wx.cloud.database();
 var common = require("../../common.js");
 var _ = db.command;
-// var config = {
-//       appid: 'wx2cc7e47c681d1101', //小程序Appid
-//       envName: 'shixian-jx2100', // 小程序云开发环境ID
-//       mchid: '1587479591', //商户号
-//       partnerKey: 'jianzhimin1735400430018755294439', //此处填服务商密钥
-//       pfx: '', //证书初始化
-//       fileID: 'cloud://shixian-jx2100.7368-shixian-jx2100-1301578378/apiclient_cert.p12', //证书云存储id
-//       actionName: '安农大闲置书籍小程序提现',
-//       rate: 1 //提现收取利率，1指的是每笔收取1%
-// };
-
-//var cloud = require('../../miniprogram_npm/wx-server-sdk'); 
-
-//var tenpay = require('../../miniprogram_npm/tenpay');//支付核心模块
-
 Page({
-
       data: {
             num: 0,
             key: '',
@@ -66,18 +50,6 @@ Page({
       //校检
       check(e) {
             var that = this;
-            //每日仅限提现一次
-            if (that.data.times > 0) {
-                  wx.showToast({
-                        title: '每日仅限提现一次，请明日再来',
-                        icon: 'none',
-                  })
-                  return false;
-            }
-            //首先校检是否提交中
-            if (!app.canReflect) {
-                  return false
-            }
             //校检金额不得为空
             if (!that.data.key) {
                   wx.showToast({
@@ -88,29 +60,7 @@ Page({
             }
             //校检金额不得低于10元
             var key = parseInt(that.data.key);
-            // if (key < 10) {
-            //       wx.showToast({
-            //             title: '单笔提现金额不得低于10元',
-            //             icon: 'none',
-            //       })
-            //       return false;
-            // }
             //校检金额不得高于余额
-            if (key > that.data.num) {
-                  wx.showToast({
-                        title: '余额不足',
-                        icon: 'none',
-                  })
-                  return false;
-            }
-            //校检金额不得高于30
-            if (key > 50) {
-                  wx.showToast({
-                        title: '单笔提现金额不得超过50元',
-                        icon: 'none',
-                  })
-                  return false;
-            }
             that.reflectpost();
       },
       //获取当天提现次数
@@ -132,7 +82,7 @@ Page({
                   }
             })
       },
-      //记录提现记录
+      //记录
       addTimes() {
             var that = this;
             db.collection('times').add({
@@ -140,7 +90,6 @@ Page({
                         days: common.days()
                   },
                   success: function (res) {
-                        // console.log(res)
                   },
                   fail: console.error
             })
@@ -162,17 +111,16 @@ Page({
                   fail: console.error
             })
       },
-      //提现提交
+      //充值提交
       reflectpost() {
             var that = this;
             wx.showLoading({
-                  title: '正在提现...',
+                  title: '正在充值...',
             });
             app.canReflect = false;
             that.setData({
                   canReflect: false,
             })
-            //that.money();
             //利用云开发接口，调用云函数发起订单
             wx.cloud.callFunction({
                   name: 'cash',
@@ -181,23 +129,21 @@ Page({
                         num: that.data.key,
                   },
                   success: res => {
-                        console.log(res)
-                        console.log(that.data.key)
-                        if (res.result == 0) {
-                              console.log('提现失败！');
-                              console.log(res);
-                              that.failref();
-                        } else {
-                              console.log('提现成功！');
-                              console.log(res);
-                              that.successref();
-                        }
+                    console.log(res);
+                    console.log(that.data.key);
+                    if (res.result.result_code == 'SUCCESS') { // 根据修改后的云函数返回结果判断
+                      console.log('充值成功！');
+                      that.successref();
+                    } else {
+                      console.log('充值失败！');
+                      that.failref();
+                    }
                   },
                   fail(err) {
-                        that.failref();
-                        console.log(err)
+                    that.failref();
+                    console.log(err);
                   }
-            });
+                });
       },
       //提现成功回调
       successref() {
@@ -205,13 +151,13 @@ Page({
             //记录今日次数
             that.addTimes();
             that.setData({
-                  num: that.data.num - that.data.key,
-                  times: 1
+                  num: Number(that.data.num)  + Number(that.data.key), 
+                  times: 0
             })
-            that.history('余额提现', that.data.key, 2);
+            that.history('余额充值', that.data.key, 1);
             wx.hideLoading();
             wx.showToast({
-                  title: '提现成功',
+                  title: '充值成功',
                   icon: 'success'
             });
       },
@@ -219,7 +165,7 @@ Page({
       failref() {
             wx.hideLoading();
             wx.showToast({
-                  title: '提现失败，重试',
+                  title: '充值失败，重试',
                   icon: 'none'
             });
             //释放禁用操作
@@ -228,9 +174,6 @@ Page({
                   canReflect: true,
             })
       },
-
-
-
       money() {
             var that = this;
             db.collection('user').doc(that.data.userid).get({
@@ -241,7 +184,7 @@ Page({
                   }
             });
             if (Number(that.data.userInfo.parse) < Number(that.data.key)) {
-                  return 0;
+                return 0;
             }
             //首先获取证书文件
             var fileres = cloud.downloadFile({
@@ -256,22 +199,21 @@ Page({
                   amount: Number(that.data.key) * (100 - config.rate),
                   desc: config.actionName,
             });
-            console.log(result);
             if (result.result_code == 'SUCCESS') {
                   //成功后操作
                   //以下是进行余额计算
                   db.collection('user').doc(that.data.userid).update({
                         data: {
-                              parse: Number(that.data.userInfo.parse) - Number(that.data.key)
+                              parse: Number(that.data.userInfo.parse) + Number(that.data.key)
                         },
                         success: res => {
                               console.log(res)
                               if (res.result == 0) {
-                                    console.log('提现失败！');
+                                    console.log('充值失败！');
                                     console.log(res);
                                     that.failref();
                               } else {
-                                    console.log('提现成功！');
+                                    console.log('充值成功！');
                                     console.log(res);
                                     that.successref();
                               }
@@ -281,8 +223,6 @@ Page({
                               console.log(err)
                         }
                   })
-
-
             }
       }
 
