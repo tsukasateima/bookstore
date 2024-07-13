@@ -15,6 +15,13 @@
                         <image class="right" src="/images/right.png" />
                   </view>
             </picker>
+            <picker bindchange="chooseGender" value="{{genderIds}}" range="{{genders}}" range-key="name">
+                  <view class="campus">
+                        <block wx:if="{{genderIds!==-1}}">性别选择：{{genders[genderIds].name}}</block>
+                        <block wx:if="{{genderIds==-1}}">选择您的性别</block>
+                        <image class="right" src="/images/right.png" />
+                  </view>
+            </picker>
             <view class="contact">
                   <input bindinput="phoneInput"  maxlength="20" placeholder-class="pache" placeholder="输入您的手机号(用于订单提醒)" />
             </view>

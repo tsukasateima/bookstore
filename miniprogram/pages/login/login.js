@@ -15,9 +15,8 @@ Page({
     email: '',
     wxnum: '',
     qqnum: '',
-    
-
-
+    genderIds: -1,
+    genders: JSON.parse(common.data).genders
   },
 
   /**
@@ -34,12 +33,18 @@ Page({
     })
   },
 
+  // 性别选择
+  chooseGender(e) {
+    this.setData({
+      genderIds: e.detail.value
+    })
+  },
+
   //各种账号输入
   phoneInput(e) {
     this.setData({
       phone: e.detail.value,
     })
-    //console.log(this.data.phone);
   },
   wxInput(e) {
     this.setData({
